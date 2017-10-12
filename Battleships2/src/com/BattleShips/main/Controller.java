@@ -25,7 +25,6 @@ public class Controller implements Initializable {
 	
 	//<---- VARIABLES ---->
 	
-	
 	public int timesHit = 0; //!resetable
 	
 	//Shiplist
