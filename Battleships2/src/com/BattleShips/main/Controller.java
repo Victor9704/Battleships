@@ -25,8 +25,6 @@ public class Controller implements Initializable {
 	
 	//<---- VARIABLES ---->
 	
-
-	
 	public int timesHit = 0; //!resetable
 	
 	//Shiplist
@@ -683,13 +681,13 @@ public class Controller implements Initializable {
 
         				//First verify if Player placed all ships
         				
-        				if(Smallships < 4 && Mediumships < 3) {
+        				if(Smallships < 4 || Mediumships < 3) {
         					System.out.println("Place all Ships first!");
         					return;
         				}
         				
         				//TODO Try to invert grids after game starts       				
-
+        				System.out.println("M = " + Mediumships);
         				
         				if(timesHit == 200) {
         					timesHit++;
@@ -698,9 +696,10 @@ public class Controller implements Initializable {
         				}
         				
         				
-        				//while(timesHit < 400)
-        				//{
+        				while(timesHit < 400)
+        				{
 	        			if(Smallships > 3 && Mediumships > 2) {
+	        			
 	        				
 	        				resetGameBool = false;
 	        				
@@ -728,7 +727,7 @@ public class Controller implements Initializable {
 	        				}
         				}
         				timesHit++;
-        				//}
+        				}
         				
         				System.out.println(timesHit);
         			}
