@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1346.0" prefHeight="252.0" prefWidth="1340.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.BattleShips.main.Controller">
+   <children>
+      <Label layoutX="577.0" text="Battleships" textFill="#8d8d8d">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Separator layoutY="84.0" maxHeight="1.7976931348623157E308" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1340.0" scaleY="0.9" style="-fx-border-color: #28435C; -fx-background-color: #28435C;" />
+      <AnchorPane layoutX="250.0" layoutY="65.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+      <SplitPane dividerPositions="0.29797979797979796, 0.5" layoutY="90.0">
+        <items>
+          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="590.0" prefWidth="590.0">
+               <children>
+                  <GridPane fx:id="fPlayer_Grid" gridLinesVisible="true" hgap="1.0" maxHeight="1.7976931348623157E308" maxWidth="590.0" prefWidth="590.0" vgap="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="146.0" prefWidth="146.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                     <children>
+                        <Button fx:id="rotateBtn" contentDisplay="CENTER" minWidth="86.0" mnemonicParsing="false" text="Rotate Ship" textAlignment="CENTER" />
+                        <Button fx:id="readyBtn" minWidth="86.0" mnemonicParsing="false" text="Restart" />
+                        <Button minWidth="86.0" mnemonicParsing="false" onAction="#DisplayBoard" text="DisplayBoard" />
+                        <Button minWidth="86.0" mnemonicParsing="false" onAction="#DisplayShips" text="Ships Coord." />
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </AnchorPane>
+          <AnchorPane id="anchor1" maxHeight="1.7976931348623157E308" maxWidth="590.0" prefWidth="590.0">
+               <children>
+                  <GridPane fx:id="AI_Grid" gridLinesVisible="true" hgap="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <Label layoutX="987.0" layoutY="57.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Computers's Board" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="250.0" layoutY="57.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Player's Board" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
