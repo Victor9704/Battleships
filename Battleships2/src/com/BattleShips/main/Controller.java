@@ -694,8 +694,8 @@ public class Controller implements Initializable {
         				}
         				
         				
-        				//while(timesHit < 400)
-        				//{
+        				while(timesHit < 400)
+        				{
 	        			if(Smallships > 3 && Mediumships > 2) {
 	        				
 	        				resetGameBool = false;
@@ -728,7 +728,7 @@ public class Controller implements Initializable {
 	        				else {
 	        					Hit.setStyle("-fx-background-color: #FF0000;");
 	        				}
-        				//}
+        				}
 	        			
 	        			AI.countDestroyedShips();
 	        			
