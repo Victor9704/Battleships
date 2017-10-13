@@ -40,5 +40,14 @@ public class Battleship {
 		
 		return check;
 	}
+	
+	public Point getCoordinates(int i) {
+		
+		Point coord = new Point();
+		coord.setX(Coordinates[i][0]);
+		coord.setY(Coordinates[i][1]);
+		
+		return coord;
+	}
 
 }
