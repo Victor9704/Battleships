@@ -716,7 +716,6 @@ public class Controller implements Initializable {
             		
         			public void run() {
         				
-        				//AI TURN ---->
         				
         				//First verify if Player placed all ships
         				
@@ -750,12 +749,32 @@ public class Controller implements Initializable {
 	        					
 	        				}
 	        				
-	        				//Only after we are sure in case of game restart that AI is initialized we can check its ShipList!
+	        				//This if here is only to prevent the game form continuing if the AI or player (later implemented) wins!
 	        				if(AI.checkShipList()) {
-	        					System.out.println("Computer won!");
+	        					System.out.println("Game over! Computer won!");
 	        					return;
 	        				}
+	        			
+	        				//PLAYER TURN ---->
 	        				
+	    					Object hoveredObj = event.getTarget();
+	    					
+	    					if(hoveredObj instanceof VBox) {
+	    						
+	    						int row = GridPane.getRowIndex((Node)hoveredObj);
+	    						int col = GridPane.getColumnIndex((Node)hoveredObj);
+	    						
+	    						AI_Grid.getChildren().remove(hoveredObj);
+	    						
+	    						Pane p = new Pane();
+	    						p.setStyle("-fx-background-color: #FF0000");
+	    						p.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+	    						AI_Grid.add(p, col, row);
+	    					}
+	        				
+	    					
+	    					//AI TURN ---->
+	    					
 	        				Point HitCoordinates = new Point();
 	        				
 	        				HitCoordinates = AI.HitFunction();
@@ -768,9 +787,17 @@ public class Controller implements Initializable {
 	        				else {
 	        					Hit.setStyle("-fx-background-color: #FF0000;");
 	        				}
+	        				
+	        				AI.countByAIDestroyedShips();
+	        				
+	        				//Only after we are sure in case of game restart that AI is initialized we can check its ShipList!
+	        				if(AI.checkShipList()) {
+	        					System.out.println("Computer won!");
+	        					return;
+	        				}
         				}
 	        			
-	        			AI.countDestroyedShips();
+	        			//AI.countDestroyedShips();
 	        			
         				timesHit++;
         				//}
@@ -781,24 +808,9 @@ public class Controller implements Initializable {
         		});
             	
 				//PLAYER TURN ---->
-				if(Smallships > 3 && Mediumships > 2 && !AI.checkShipList()) {
-					
-					Object hoveredObj = event.getTarget();
-					
-					if(hoveredObj instanceof VBox) {
+				/*if(Smallships > 3 && Mediumships > 2 && resetAI == false && !AI.checkShipList()) {
 						
-						int row = GridPane.getRowIndex((Node)hoveredObj);
-						int col = GridPane.getColumnIndex((Node)hoveredObj);
-						
-						AI_Grid.getChildren().remove(hoveredObj);
-						
-						Pane p = new Pane();
-						p.setStyle("-fx-background-color: #FF0000");
-						p.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
-						AI_Grid.add(p, col, row);
-					}
-						
-				}
+				}*/
         		
         		/*Thread backgroundThread = new Thread(task);
         		backgroundThread.setDaemon(true);

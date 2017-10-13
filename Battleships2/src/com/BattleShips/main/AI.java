@@ -49,13 +49,21 @@ public class AI {
 	//Destroyed Ships boolean
 	boolean destroyShip = false;
 	
+	//AI Name
 	private String name = "Johnny";
+	
+	//Player Board(GridPane)
 	private int gameBoard[][];
+	
+	//AI Board(GridPane)
+	private int AIBoard[][];
+	
 	private int nrColumns;
 	private int nrRows;
 	
 	public AI(int rows, int cols, ArrayList<Battleship> SL) {
 		gameBoard = new int[cols][rows];
+		AIBoard = new int[cols][rows];
 		HitStack = new Stack<Point>();
 		GuessArray = new ArrayList<Integer>();
 		nrColumns = cols;
@@ -63,8 +71,10 @@ public class AI {
 		ShipList = SL;
 		}
 	
+	//<---- PLAYER BOARD FUNCTIONS ---->
+	
 	//<---- COUNT DESTROYED SHIPS ---->
-	public void countDestroyedShips() {
+	public void countByAIDestroyedShips() {
 		
 		//Check all positions of all ships if hit!
 		for(int i = 0; i<ShipList.size();i++) {
@@ -718,14 +728,6 @@ public class AI {
 		
 		return r;
 	}
-	
-	//<---- SCRAP ---->
-	
-	/*public void DisplayShips() {
-		for(Battleship i : ShipList) {
-			i.print();
-		}
-	}*/
 	
 	public int getPosition(int col, int row) {
 		
