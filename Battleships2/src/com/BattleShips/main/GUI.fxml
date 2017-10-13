@@ -27,8 +27,8 @@
                <children>
                   <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Button fx:id="rotateBtn" contentDisplay="CENTER" minWidth="86.0" mnemonicParsing="false" text="Rotate Ship" textAlignment="CENTER" />
                         <Button fx:id="readyBtn" minWidth="86.0" mnemonicParsing="false" text="Restart" />
+                        <Button fx:id="rotateBtn" contentDisplay="CENTER" minWidth="86.0" mnemonicParsing="false" text="Rotate Ship" textAlignment="CENTER" />
                         <Button minWidth="86.0" mnemonicParsing="false" onAction="#DisplayBoard" text="DisplayBoard" />
                         <Button minWidth="86.0" mnemonicParsing="false" onAction="#DisplayShips" text="Ships Coord." />
                      </children>
