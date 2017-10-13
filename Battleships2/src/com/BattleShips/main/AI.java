@@ -619,12 +619,40 @@ public class AI {
 	
 	public Point RecursiveHit (int col, int row) {
 		
-		if(gameBoard[col][row] == 0) {
+		if(gameBoard[col][row] == 0) {			
+			
 			Point p = new Point();
 			gameBoard[col][row] = 1;
 			p.setX(col);
 			p.setY(row);
+			
+			//If we hit a ship AND THE AI KNOWS IT IS HORIZONTAL, hit neighbours too, so that computer won;t hit the neighbours ever again ( he knows ship can;t be one next to another)
+			if(isHorizontal == true) {
+				if(CheckHit(p)) {
+					//Also hit the neighbours of first Hit of the ship, which is always first on stack, it can not be empty if isHorizontal or is Vertical is true!
+					if(col+1 < 20) {
+						gameBoard[col+1][row] = 1;
+					}
+					if(col-1 >= 0) {
+						gameBoard[col-1][row] = 1;
+					}
+				}
+			}
+			
+			//If we hit a ship AND THE AI KNOWS IT IS VERTICAL, hit neighbours too, so that computer won;t hit the neighbours ever again ( he knows ship can;t be one next to another)
+			if(isVertical == true) {
+				if(CheckHit(p)) {
+					if(row+1 < 20) {
+						gameBoard[col][row+1] = 1;
+					}
+					if(row-1 >= 0) {
+						gameBoard[col][row-1] = 1;
+					}
+				}
+			}
+			
 			return p;
+			
 		}
 		else {
 			int randomcol = generateRandomCol();
