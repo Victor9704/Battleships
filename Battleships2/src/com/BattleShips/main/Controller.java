@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javax.management.Notification;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -622,6 +623,42 @@ public class Controller implements Initializable {
 						});
 	}
 	
+	//<---- AI GRID ---->
+	private void mouseOverPosition() {
+		
+		AI_Grid.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent e) {
+				
+				Object hoveredObj = e.getTarget();
+				
+				if(hoveredObj instanceof VBox) {
+					((VBox)hoveredObj).setStyle("-fx-background-color: #0000FF");
+				}
+					
+			}
+			
+		});
+		
+		AI_Grid.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent e) {
+				
+				Object hoveredObj = e.getTarget();
+				
+				if(hoveredObj instanceof VBox) {
+					((VBox)hoveredObj).setStyle("-fx-background-color: #333333");
+				}
+					
+			}
+			
+		});
+	
+	}
+	
+	
 	//<---- BUTTON FUNCTIONS ---->
 	
 	private void RotateShip() {
@@ -670,13 +707,16 @@ public class Controller implements Initializable {
 		
 		//readyBtn.setOnAction(new EventHandler<ActionEvent>() {
 		AI_Grid.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-		
+			
             @Override
             public void handle(/*ActionEvent*/MouseEvent event) {
             	
-            	Runnable task = new Runnable() {
+            	
+            	/*Runnable task*/ Platform.runLater( new Runnable() {
             		
         			public void run() {
+        				
+        				//AI TURN ---->
         				
         				//First verify if Player placed all ships
         				
@@ -738,11 +778,31 @@ public class Controller implements Initializable {
         				System.out.println(timesHit);
         			}
         			
-        		};
+        		});
+            	
+				//PLAYER TURN ---->
+				if(Smallships > 3 && Mediumships > 2 && !AI.checkShipList()) {
+					
+					Object hoveredObj = event.getTarget();
+					
+					if(hoveredObj instanceof VBox) {
+						
+						int row = GridPane.getRowIndex((Node)hoveredObj);
+						int col = GridPane.getColumnIndex((Node)hoveredObj);
+						
+						AI_Grid.getChildren().remove(hoveredObj);
+						
+						Pane p = new Pane();
+						p.setStyle("-fx-background-color: #FF0000");
+						p.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+						AI_Grid.add(p, col, row);
+					}
+						
+				}
         		
-        		Thread backgroundThread = new Thread(task);
+        		/*Thread backgroundThread = new Thread(task);
         		backgroundThread.setDaemon(true);
-        		backgroundThread.start();
+        		backgroundThread.start();*/
             	
             }
 		});
@@ -758,10 +818,14 @@ public class Controller implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				//!Reset the grid
+				//!Reset the player grid
 				fPlayer_Grid.getChildren().clear();
 				populateGridPane(fPlayer_Grid);
 				//populateGridPane(fPlayer_Grid);
+				
+				//!Reset the AI grid
+				AI_Grid.getChildren().clear();
+				populateGridPane(AI_Grid);
 				
 				//!Reset values
 				timesHit = 0;
@@ -1019,6 +1083,7 @@ public class Controller implements Initializable {
 		SmallShipsVertical();
 		MediumShipsHorizontal();
 		MediumShipsVertical();
+		mouseOverPosition();
 		resetGame();
 		StartGame();
 
