@@ -637,8 +637,7 @@ public class AI {
 						gameBoard[col-1][row] = 1;
 					}
 				}
-			}
-			
+			}			
 			//If we hit a ship AND THE AI KNOWS IT IS VERTICAL, hit neighbours too, so that computer won;t hit the neighbours ever again ( he knows ship can;t be one next to another)
 			if(isVertical == true) {
 				if(CheckHit(p)) {
