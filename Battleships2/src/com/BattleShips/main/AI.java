@@ -42,6 +42,13 @@ public class AI {
 	//Guessing
 	boolean isGuessing = false;
 	
+	//Destroyed Ships
+	int smallshipsDestroyed = 0;
+	int mediumshipsDestroyed = 0;
+	
+	//Destroyed Ships boolean
+	boolean destroyShip = false;
+	
 	private String name = "Johnny";
 	private int gameBoard[][];
 	private int nrColumns;
@@ -55,6 +62,71 @@ public class AI {
 		nrRows = rows;
 		ShipList = SL;
 		}
+	
+	//<---- COUNT DESTROYED SHIPS ---->
+	public void countDestroyedShips() {
+		
+		//Check all positions of all ships if hit!
+		for(int i = 0; i<ShipList.size();i++) {
+			
+			Battleship b = ShipList.get(i);
+			
+			//Verify each small ship
+			if(b instanceof Smallship) {
+				
+				//Get Ship Positions
+				Point p1 = b.getCoordinates(0);
+				Point p2 = b.getCoordinates(1);
+				Point p3 = b.getCoordinates(2);
+				
+				//If all positions Hit remove ship
+				if(getPosition(p1.getX(), p1.getY()) == 1 && getPosition(p2.getX(), p2.getY()) == 1 && getPosition(p3.getX(), p3.getY()) == 1) {
+					
+					System.out.println("Small ship Destroyed!");
+					smallshipsDestroyed += 1;
+					ShipList.remove(b);
+					
+				}
+				
+			}
+			
+			//Verify each medium ship
+			if(b instanceof Mediumship) {
+				
+				//Get Ship Positions
+				Point p1 = b.getCoordinates(0);
+				Point p2 = b.getCoordinates(1);
+				Point p3 = b.getCoordinates(2);
+				Point p4 = b.getCoordinates(3);
+				Point p5 = b.getCoordinates(4);
+				
+				//If all positions Hit remove ship
+				if(getPosition(p1.getX(), p1.getY()) == 1 && getPosition(p2.getX(), p2.getY()) == 1 && getPosition(p3.getX(), p3.getY()) == 1 && getPosition(p4.getX(),p4.getY()) == 1 &&
+						getPosition(p5.getX(),p5.getY()) == 1) {
+					
+					System.out.println("Medium ship Destroyed");
+					smallshipsDestroyed += 1;
+					ShipList.remove(b);
+					
+				}
+				
+			}
+		}
+		
+	}
+	
+	//<---- CHECK IF ALL SHEAPS ARE DESTROYED ---->
+	
+	public boolean checkShipList() {
+		
+		if(ShipList.isEmpty()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
 	
 	//<---- HIT FUNCTION ---->
 	
@@ -141,7 +213,7 @@ public class AI {
 			//Check if Out of gridpane or already hit
 			if(direction.getY() >=0 && getPosition(direction.getX(), direction.getY()) != 1) {
 				if(CheckHit(direction)) {
-					System.out.println("Horizontal Ship Detected");
+					//System.out.println("Horizontal Ship Detected");
 					isHorizontal = true;
 					goLeft = true;
 					isGuessing = false;
@@ -170,7 +242,7 @@ public class AI {
 			
 			if(direction.getY() <20 && getPosition(direction.getX(), direction.getY()) != 1) {
 				if(CheckHit(direction)) {
-					System.out.println("Horizontal Ship Detected");
+					//System.out.println("Horizontal Ship Detected");
 					isHorizontal = true;
 					goRight = true;
 					isGuessing = false;
@@ -199,7 +271,7 @@ public class AI {
 			
 			if(direction.getX() >=0 && getPosition(direction.getX(), direction.getY()) != 1) {
 				if(CheckHit(direction)) {
-					System.out.println("Vertical Ship Detected");
+					//System.out.println("Vertical Ship Detected");
 					isVertical = true;
 					goUp = true;
 					isGuessing = false;
@@ -227,7 +299,7 @@ public class AI {
 			
 			if(direction.getX() <20 && getPosition(direction.getX(), direction.getY()) != 1) {
 				if(CheckHit(direction)) {
-					System.out.println("Vertical Ship Detected");
+					//System.out.println("Vertical Ship Detected");
 					isVertical = true;
 					goDown = true;
 					isGuessing = false;
@@ -293,7 +365,7 @@ public class AI {
 			HitStack.clear();
 			isHorizontal = false;
 			Hit = HitFunction();//Return another Hit, after Kill is done(False)
-			System.out.println("Ship is Dead");
+			//System.out.println("Ship is Dead");
 		}
 		
 		return Hit;
@@ -314,7 +386,7 @@ public class AI {
 			Hit = hitPosition(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
-				System.out.println("Change to Left");
+				//System.out.println("Change to Left");
 				
 				goRight = false;
 				goLeft = true;
@@ -331,7 +403,7 @@ public class AI {
 		//related to KillFunction AND ALSO THE STACK and start hunting again.
 		else {
 			
-			System.out.println("Hit margin right");
+			//System.out.println("Hit margin right");
 			//Kill = false;
 			goRight = false;
 			goLeft = true;
@@ -342,11 +414,11 @@ public class AI {
 			HitStack.push(temp);
 				
 			if(wasLeft == false) {
-				System.out.println("Go Left");
+				//System.out.println("Go Left");
 				Hit = KillLeft();
 			}
 			else {
-				System.out.println("Already was left :(");
+				//System.out.println("Already was left :(");
 				Hit = HitFunction();
 			}
 				
@@ -370,7 +442,7 @@ public class AI {
 			Hit = hitPosition(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
-				System.out.println("Change to right");
+				//System.out.println("Change to right");
 				goLeft = false;
 				goRight = true;
 				wasLeft = true;
@@ -383,7 +455,7 @@ public class AI {
 			return Hit;
 		}
 		else {
-			System.out.println("Hit margin left");
+			//System.out.println("Hit margin left");
 
 			goLeft = false;
 			goRight = true;
@@ -394,11 +466,11 @@ public class AI {
 			HitStack.push(temp);
 			
 			if(wasRight == false) {
-				System.out.println("Go Right");
+				//System.out.println("Go Right");
 				Hit = KillRight();
 			}
 			else {
-				System.out.println("Already was right :(");
+				//System.out.println("Already was right :(");
 				Hit = HitFunction();
 			}
 			
@@ -429,7 +501,7 @@ public class AI {
 			HitStack.clear();
 			isVertical = false;
 			Hit = HitFunction();//Return another Hit, after Kill is done(False)
-			System.out.println("Ship is Dead");
+			//System.out.println("Ship is Dead");
 		}
 		
 		return Hit;
@@ -450,7 +522,7 @@ public class AI {
 			Hit = hitPosition(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
-				System.out.println("Change to Down");
+				//System.out.println("Change to Down");
 				
 				goUp = false;
 				goDown = true;
@@ -467,7 +539,7 @@ public class AI {
 		//related to KillFunction AND ALSO THE STACK and start hunting again.
 		else {
 			
-			System.out.println("Hit margin Up");
+			//System.out.println("Hit margin Up");
 			//Kill = false;
 			goUp = false;
 			goDown = true;
@@ -478,11 +550,11 @@ public class AI {
 			HitStack.push(temp);
 				
 			if(wasDown == false) {
-				System.out.println("Go Down");
+				//System.out.println("Go Down");
 				Hit = KillDown();
 			}
 			else {
-				System.out.println("Already was down :(");
+				//System.out.println("Already was down :(");
 				Hit = HitFunction();
 			}
 				
@@ -498,7 +570,6 @@ public class AI {
 		
 		Hit.setX(previousHit.getX()+1);
 		Hit.setY(previousHit.getY());//Verifica daca e deja lovit
-		System.out.println("X = " + Hit.getX() + " Y = " + Hit.getY());
 		
 		//Check if right is out of Grid or Point already Hit.
 		//It can cause a random hit before continuing the actual kill, because it always need to hit something that is not hit!
@@ -506,7 +577,7 @@ public class AI {
 			Hit = hitPosition(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
-				System.out.println("Change to up");
+				//System.out.println("Change to up");
 				goDown = false;
 				goUp = true;
 				wasDown = true;
@@ -519,7 +590,7 @@ public class AI {
 			return Hit;
 		}
 		else {
-			System.out.println("Hit margin down");
+			//System.out.println("Hit margin down");
 
 			goDown = false;
 			goUp = true;
@@ -530,11 +601,11 @@ public class AI {
 			HitStack.push(temp);
 			
 			if(wasUp == false) {
-				System.out.println("Go Up");
+				//System.out.println("Go Up");
 				Hit = KillUp();
 			}
 			else {
-				System.out.println("Already was Up :(");
+				//System.out.println("Already was Up :(");
 				Hit = HitFunction();
 			}
 			
@@ -635,6 +706,7 @@ public class AI {
 		
 	}
 	
+	//TODO Check with recursive hit Function
 	public Point hitPosition(int col, int row) {
 		
 		Point trytohit = new Point();
