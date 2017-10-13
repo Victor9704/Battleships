@@ -678,7 +678,6 @@ public class Controller implements Initializable {
             		
         			public void run() {
         				
-
         				//First verify if Player placed all ships
         				
         				if(Smallships < 4 || Mediumships < 3) {
@@ -687,7 +686,6 @@ public class Controller implements Initializable {
         				}
         				
         				//TODO Try to invert grids after game starts       				
-        				System.out.println("M = " + Mediumships);
         				
         				if(timesHit == 200) {
         					timesHit++;
@@ -696,10 +694,9 @@ public class Controller implements Initializable {
         				}
         				
         				
-        				while(timesHit < 400)
-        				{
+        				//while(timesHit < 400)
+        				//{
 	        			if(Smallships > 3 && Mediumships > 2) {
-	        			
 	        				
 	        				resetGameBool = false;
 	        				
@@ -711,6 +708,11 @@ public class Controller implements Initializable {
 	        					AI = new AI(HEIGHT, WIDTH, ShipList);
 	        					resetAI = false;
 	        					
+	        				}
+	        				
+	        				if(AI.checkShipList()) {
+	        					System.out.println("Computer won!");
+	        					return;
 	        				}
 	        				
 	        				Point HitCoordinates = new Point();
@@ -726,10 +728,13 @@ public class Controller implements Initializable {
 	        					Hit.setStyle("-fx-background-color: #FF0000;");
 	        				}
         				}
-        				timesHit++;
-        				}
+	        			
+	        			AI.countDestroyedShips();
+	        			
+        				//timesHit++;
+        				//}
         				
-        				System.out.println(timesHit);
+        				//System.out.println(timesHit);
         			}
         			
         		};
@@ -987,8 +992,8 @@ public class Controller implements Initializable {
 		
 		int[][] Board = AI.GetBoard();
 		
-		for(int i = 0; i<9; i++) {
-			for(int j = 0; j<9; j++) {
+		for(int i = 0; i<20; i++) {
+			for(int j = 0; j<20; j++) {
 				System.out.print("[ "+Board[i][j]+" ]");
 			}
 			System.out.println("");
