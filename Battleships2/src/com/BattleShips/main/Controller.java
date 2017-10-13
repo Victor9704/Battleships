@@ -806,11 +806,6 @@ public class Controller implements Initializable {
         			}
         			
         		});
-            	
-				//PLAYER TURN ---->
-				/*if(Smallships > 3 && Mediumships > 2 && resetAI == false && !AI.checkShipList()) {
-						
-				}*/
         		
         		/*Thread backgroundThread = new Thread(task);
         		backgroundThread.setDaemon(true);
