@@ -219,11 +219,11 @@ public class AI {
 					isGuessing = false;
 					GuessArray.clear();
 					HitStack.add(direction);
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 				else {
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 			}
@@ -248,11 +248,11 @@ public class AI {
 					isGuessing = false;
 					GuessArray.clear();
 					HitStack.add(direction);
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 				else {
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 			}
@@ -277,11 +277,11 @@ public class AI {
 					isGuessing = false;
 					GuessArray.clear();
 					HitStack.add(direction);
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 				else {
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 			}
@@ -305,11 +305,11 @@ public class AI {
 					isGuessing = false;
 					GuessArray.clear();
 					HitStack.add(direction);
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 				else {
-					hitPosition(direction.getX(),direction.getY());
+					RecursiveHit(direction.getX(),direction.getY());
 					return direction;
 				}
 			}
@@ -383,7 +383,7 @@ public class AI {
 		//Check if right is out of Grid or Point already Hit.
 		//It can cause a random hit before continuing the actual kill, because it always need to hit something that is not hit!
 		if(Hit.getY()<20 && getPosition(Hit.getX(), Hit.getY()) != 1) {
-			Hit = hitPosition(Hit.getX(),Hit.getY());
+			Hit = RecursiveHit(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
 				//System.out.println("Change to Left");
@@ -439,7 +439,7 @@ public class AI {
 		//Check if right is out of Grid or Point already Hit.
 		//It can cause a random hit before continuing the actual kill, because it always need to hit something that is not hit!
 		if(Hit.getY() >= 0 && getPosition(Hit.getX(), Hit.getY()) != 1) {
-			Hit = hitPosition(Hit.getX(),Hit.getY());
+			Hit = RecursiveHit(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
 				//System.out.println("Change to right");
@@ -519,7 +519,7 @@ public class AI {
 		//Check if right is out of Grid or Point already Hit.
 		//It can cause a random hit before continuing the actual kill, because it always need to hit something that is not hit!
 		if(Hit.getX()>=0 && getPosition(Hit.getX(), Hit.getY()) != 1) {
-			Hit = hitPosition(Hit.getX(),Hit.getY());
+			Hit = RecursiveHit(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
 				//System.out.println("Change to Down");
@@ -574,7 +574,7 @@ public class AI {
 		//Check if right is out of Grid or Point already Hit.
 		//It can cause a random hit before continuing the actual kill, because it always need to hit something that is not hit!
 		if(Hit.getX() < 20 && getPosition(Hit.getX(), Hit.getY()) != 1) {
-			Hit = hitPosition(Hit.getX(),Hit.getY());
+			Hit = RecursiveHit(Hit.getX(),Hit.getY());
 			HitStack.push(Hit);
 			if(!CheckHit(Hit)) {
 				//System.out.println("Change to up");

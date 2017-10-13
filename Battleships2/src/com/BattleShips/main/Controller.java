@@ -710,6 +710,7 @@ public class Controller implements Initializable {
 	        					
 	        				}
 	        				
+	        				//Only after we are sure in case of game restart that AI is initialized we can check its ShipList!
 	        				if(AI.checkShipList()) {
 	        					System.out.println("Computer won!");
 	        					return;
@@ -727,14 +728,14 @@ public class Controller implements Initializable {
 	        				else {
 	        					Hit.setStyle("-fx-background-color: #FF0000;");
 	        				}
-        				}
+        				//}
 	        			
 	        			AI.countDestroyedShips();
 	        			
-        				//timesHit++;
-        				//}
+        				timesHit++;
+        				}
         				
-        				//System.out.println(timesHit);
+        				System.out.println(timesHit);
         			}
         			
         		};
