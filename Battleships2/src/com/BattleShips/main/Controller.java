@@ -24,6 +24,9 @@ import javafx.scene.layout.VBox;
 
 public class Controller implements Initializable {
 	
+	// Create a custom Notification without icon
+	//Notification info = new Notification("Title", "Info-Message");
+	
 	//<---- VARIABLES ---->
 	
 	public int timesHit = 0; //!resetable
@@ -107,13 +110,48 @@ public class Controller implements Initializable {
 						int row = GridPane.getRowIndex((Node)clickedObj);
 						int col = GridPane.getColumnIndex((Node)clickedObj);
 						
+						
 						//Take into account Smallships need 1 free box on margin, else NullPointer (out of the GridPane!)
 						if(PlacingSmallShipsHorizontal == true && col+1<WIDTH && col-1>=0) {
 							
 							Node left = getNodeByRowColumnIndex(row, col-1, fPlayer_Grid);
 							Node right = getNodeByRowColumnIndex(row, col+1, fPlayer_Grid);
 							
-							if(clickedObj instanceof VBox && left instanceof VBox && right instanceof VBox ) {
+							//Verify neighbour nodes
+							Node upLeft = null;
+							Node downLeft = null;
+							Node upClickedObj = null;
+							Node downClickedObj = null;
+							Node upRight = null;
+							Node downRight = null;
+							Node leftMargin = null;
+							Node rightMargin = null;
+							
+							if( row-1>=0 ) {
+								upLeft = getNodeByRowColumnIndex(row-1, col-1,fPlayer_Grid);
+								upClickedObj = getNodeByRowColumnIndex(row-1, col,fPlayer_Grid);
+								upRight = getNodeByRowColumnIndex(row-1, col+1,fPlayer_Grid);
+							}
+							
+							if( row+1<HEIGHT ) {
+								downLeft = getNodeByRowColumnIndex(row+1, col-1,fPlayer_Grid);
+								downClickedObj = getNodeByRowColumnIndex(row+1, col,fPlayer_Grid);
+								downRight = getNodeByRowColumnIndex(row+1,col+1,fPlayer_Grid);
+							}
+							
+							if( col+2<WIDTH) {
+								rightMargin = getNodeByRowColumnIndex(row, col+2,fPlayer_Grid);
+							}
+							
+							if( col-2<WIDTH) {
+								leftMargin = getNodeByRowColumnIndex(row, col-2,fPlayer_Grid);
+							}
+							
+							if(clickedObj instanceof VBox && left instanceof VBox && right instanceof VBox 
+							  && (upLeft instanceof VBox || upLeft==null) && (upClickedObj instanceof VBox || upClickedObj == null)
+							  && (upRight instanceof VBox || upRight == null) && (downLeft instanceof VBox || downLeft == null)
+							  && (downClickedObj instanceof VBox || downClickedObj == null) && (downRight instanceof VBox || downRight == null)
+							  && (rightMargin instanceof VBox || rightMargin == null) && (leftMargin instanceof VBox || leftMargin == null)) {
 								
 								//Create Placed Ship on GridPane out of Panes (see the function which creates them)
 								fPlayer_Grid.getChildren().remove(left);
@@ -365,6 +403,7 @@ public class Controller implements Initializable {
 						int row = GridPane.getRowIndex((Node)clickedObj);
 						int col = GridPane.getColumnIndex((Node)clickedObj);
 						
+						
 						//Take into account Mediumships need 2 free boxes on margin, else NullPointer (out of the GridPane!)
 						if(PlacingMediumShipsHorizontal == true && col+2<WIDTH && col-2>=0) {
 							
@@ -373,8 +412,52 @@ public class Controller implements Initializable {
 							Node right = getNodeByRowColumnIndex(row, col+1, fPlayer_Grid);
 							Node rightright = getNodeByRowColumnIndex(row, col+2, fPlayer_Grid);
 							
+							//Verify neighbour nodes
+							Node upLeft = null;
+							Node upLeftLeft = null;
+							Node downLeft = null;
+							Node downLeftLeft = null;
+							Node upClickedObj = null;
+							Node downClickedObj = null;
+							Node upRight = null;
+							Node upRightRight = null;
+							Node downRight = null;
+							Node downRightRight = null;
+							Node leftMargin = null;
+							Node rightMargin = null;
+							
+							if( row-1>=0 ) {
+								upLeft = getNodeByRowColumnIndex(row-1, col-1,fPlayer_Grid);
+								upLeftLeft = getNodeByRowColumnIndex(row-1, col-2,fPlayer_Grid);
+								upClickedObj = getNodeByRowColumnIndex(row-1, col,fPlayer_Grid);
+								upRight = getNodeByRowColumnIndex(row-1, col+1,fPlayer_Grid);
+								upRightRight = getNodeByRowColumnIndex(row-1, col+2,fPlayer_Grid);
+							}
+							
+							if( row+1<HEIGHT ) {
+								downLeft = getNodeByRowColumnIndex(row+1, col-1,fPlayer_Grid);
+								downLeftLeft = getNodeByRowColumnIndex(row+1, col-2,fPlayer_Grid);
+								downClickedObj = getNodeByRowColumnIndex(row+1, col,fPlayer_Grid);
+								downRight = getNodeByRowColumnIndex(row+1,col+1,fPlayer_Grid);
+								downRightRight = getNodeByRowColumnIndex(row+1,col+2,fPlayer_Grid);
+							}
+							
+							if( col+3<WIDTH) {
+								rightMargin = getNodeByRowColumnIndex(row, col+3,fPlayer_Grid);
+							}
+							
+							if( col-3<WIDTH) {
+								leftMargin = getNodeByRowColumnIndex(row, col-3,fPlayer_Grid);
+							}
+							
 							if(clickedObj instanceof VBox && left instanceof VBox && right instanceof VBox && leftleft instanceof VBox 
-									&& rightright instanceof VBox) {
+									&& rightright instanceof VBox && (upLeft instanceof VBox || upLeft==null) 
+									&& (upClickedObj instanceof VBox || upClickedObj == null) && (upRight instanceof VBox || upRight == null) 
+									&& (downLeft instanceof VBox || downLeft == null)&& (downClickedObj instanceof VBox || downClickedObj == null)
+									&& (downRight instanceof VBox || downRight == null) && (rightMargin instanceof VBox || rightMargin == null) 
+									&& (leftMargin instanceof VBox || leftMargin == null) && (downLeftLeft instanceof VBox || downLeftLeft == null)
+									&& (downRightRight instanceof VBox || downRightRight == null) && (upLeftLeft instanceof VBox || upLeftLeft == null)
+									&& (upRightRight instanceof VBox || upRightRight == null)) {
 								
 								//Create Placed Ship on GridPane out of Panes (see the function which creates them)
 								fPlayer_Grid.getChildren().remove(left);
