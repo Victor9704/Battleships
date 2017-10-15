@@ -27,6 +27,8 @@ public class Controller implements Initializable {
 	// Create a custom Notification without icon
 	//Notification info = new Notification("Title", "Info-Message");
 	
+	
+	
 	//<---- VARIABLES ---->
 	
 	public int timesHit = 0; //!resetable
