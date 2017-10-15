@@ -28,7 +28,6 @@ public class Controller implements Initializable {
 	//Notification info = new Notification("Title", "Info-Message");
 	
 	
-	
 	//<---- VARIABLES ---->
 	
 	public int timesHit = 0; //!resetable
