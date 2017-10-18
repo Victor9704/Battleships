@@ -73,6 +73,12 @@ public class AI {
 	
 	//<---- PLAYER BOARD FUNCTIONS ---->
 	
+	public void playerHit(Point Hit) {
+		
+		
+		
+	}
+	
 	//<---- COUNT DESTROYED SHIPS ---->
 	public void countByAIDestroyedShips() {
 		

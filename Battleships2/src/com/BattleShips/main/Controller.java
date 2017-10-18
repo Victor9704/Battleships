@@ -6,13 +6,17 @@ import java.util.ResourceBundle;
 
 import javax.management.Notification;
 
+import org.controlsfx.control.Notifications;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -20,13 +24,14 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import sun.net.www.http.PosterOutputStream;
 
 public class Controller implements Initializable {
-	
-	// Create a custom Notification without icon
-	//Notification info = new Notification("Title", "Info-Message");
-	
 	
 	//<---- VARIABLES ---->
 	
@@ -91,7 +96,7 @@ public class Controller implements Initializable {
 	//<---- SHIP FUNCTIONS ---->
 	
 	public void SmallShipsHorizontal() {
-		
+
 		//Place Ship Event
 		fPlayer_Grid.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 				
@@ -178,6 +183,15 @@ public class Controller implements Initializable {
 							else if(PlacingSmallShipsHorizontal == true){
 								//<------ TO DO ------>
 								System.out.println("There's already a ship!");
+								Platform.runLater(new Runnable() {
+									
+									@Override
+									public void run() {
+										Notifications.create().darkStyle().title("There's already a ship!").text("Place the ship atleast at 1 square away.").position(Pos.CENTER).showWarning();
+										//Notifications.create().darkStyle().title("Eroare").text("Hei i'm an info").showInformation();
+										//Notifications.create().darkStyle().title("Eroare").text("Hei i'm a meesage").show();
+									}
+								});
 							}					
 						}
 						else if(PlacingSmallShipsHorizontal == true){
@@ -283,7 +297,38 @@ public class Controller implements Initializable {
 							Node up = getNodeByRowColumnIndex(row-1, col, fPlayer_Grid);
 							Node down = getNodeByRowColumnIndex(row+1, col, fPlayer_Grid);
 							
-							if(clickedObj instanceof VBox && up instanceof VBox && down instanceof VBox ) {
+							//Verify neighbour nodes
+							Node rightUp = null;
+							Node rightClickedObj = null;
+							Node rightDown = null;
+							Node leftUp = null;
+							Node leftClickedObj = null;
+							Node leftDown = null;
+							Node marginUp = null;
+							Node marginDown = null;
+							
+							if(col -1 >= 0) {
+								leftUp = getNodeByRowColumnIndex(row-1, col-1, fPlayer_Grid);
+								leftClickedObj = getNodeByRowColumnIndex(row, col-1, fPlayer_Grid);
+								leftDown = getNodeByRowColumnIndex(row+1, col-1, fPlayer_Grid);
+							}
+							if(col +1 <WIDTH) {
+								rightUp = getNodeByRowColumnIndex(row-1, col+1, fPlayer_Grid);
+								rightClickedObj = getNodeByRowColumnIndex(row, col+1, fPlayer_Grid);
+								rightDown = getNodeByRowColumnIndex(row+1, col+1, fPlayer_Grid);
+							}
+							if(row+2<HEIGHT) {
+								marginDown = getNodeByRowColumnIndex(row+2, col, fPlayer_Grid);
+							}
+							if(row-2>=0) {
+								marginUp = getNodeByRowColumnIndex(row-2, col, fPlayer_Grid);
+							}
+							
+							if(clickedObj instanceof VBox && up instanceof VBox && down instanceof VBox
+							  && (leftUp instanceof VBox || leftUp == null) && (leftClickedObj instanceof VBox || leftClickedObj == null)
+							  && (leftDown instanceof VBox || leftDown == null) && (rightUp instanceof VBox || rightUp == null)
+							  && (rightClickedObj instanceof VBox || rightClickedObj == null) && (rightDown instanceof VBox || rightDown == null)
+							  && (marginDown instanceof VBox || marginDown == null) && (marginUp instanceof VBox || marginUp == null)) {
 								
 								fPlayer_Grid.getChildren().remove(up);
 								fPlayer_Grid.add(createGridPaneCanvas(), col, row-1);
@@ -597,8 +642,49 @@ public class Controller implements Initializable {
 							Node right = getNodeByRowColumnIndex(row+1, col, fPlayer_Grid);
 							Node rightright = getNodeByRowColumnIndex(row+2, col, fPlayer_Grid);
 							
-							if(clickedObj instanceof VBox && left instanceof VBox && right instanceof VBox && leftleft instanceof VBox 
-									&& rightright instanceof VBox) {
+							//Verify neighbour nodes
+							Node rightUp = null;
+							Node rightRightUp = null;
+							Node rightClickedObj = null;
+							Node rightDown = null;
+							Node rightRightDown = null;
+							Node leftUp = null;
+							Node leftLeftUp = null;
+							Node leftClickedObj = null;
+							Node leftDown = null;
+							Node leftLeftDown = null;
+							Node marginUp = null;
+							Node marginDown = null;
+							
+							if(col -1 >= 0) {
+								leftLeftUp = getNodeByRowColumnIndex(row-2, col-1, fPlayer_Grid);
+								leftUp = getNodeByRowColumnIndex(row-1, col-1, fPlayer_Grid);
+								leftClickedObj = getNodeByRowColumnIndex(row, col-1, fPlayer_Grid);
+								leftDown = getNodeByRowColumnIndex(row+1, col-1, fPlayer_Grid);
+								leftLeftDown = getNodeByRowColumnIndex(row+2, col-1, fPlayer_Grid);
+							}
+							if(col +1 <WIDTH) {
+								rightRightUp = getNodeByRowColumnIndex(row-2, col+1, fPlayer_Grid);
+								rightUp = getNodeByRowColumnIndex(row-1, col+1, fPlayer_Grid);
+								rightClickedObj = getNodeByRowColumnIndex(row, col+1, fPlayer_Grid);
+								rightDown = getNodeByRowColumnIndex(row+1, col+1, fPlayer_Grid);
+								rightRightDown = getNodeByRowColumnIndex(row+2, col+1, fPlayer_Grid);
+							}
+							if(row+3<HEIGHT) {
+								marginDown = getNodeByRowColumnIndex(row+3, col, fPlayer_Grid);
+							}
+							if(row-3>=0) {
+								marginUp = getNodeByRowColumnIndex(row-3, col, fPlayer_Grid);
+							}
+							
+							if(clickedObj instanceof VBox && left instanceof VBox && right instanceof VBox 
+							  && leftleft instanceof VBox && rightright instanceof VBox
+							  && (leftUp instanceof VBox || leftUp == null) && (leftClickedObj instanceof VBox || leftClickedObj == null)
+							  && (leftDown instanceof VBox || leftDown == null) && (rightUp instanceof VBox || rightUp == null)
+							  && (rightClickedObj instanceof VBox || rightClickedObj == null) && (rightDown instanceof VBox || rightDown == null)
+							  && (marginDown instanceof VBox || marginDown == null) && (marginUp instanceof VBox || marginUp == null)
+							  && (rightRightUp instanceof VBox || rightRightUp == null) && (leftLeftUp instanceof VBox || leftLeftUp == null)
+							  && (leftLeftDown instanceof VBox || leftLeftDown == null) && (rightRightDown instanceof VBox || rightRightDown == null)) {
 								
 								//Create Placed Ship on GridPane out of Panes (see the function which creates them)
 								fPlayer_Grid.getChildren().remove(left);
