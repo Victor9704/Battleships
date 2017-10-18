@@ -74,7 +74,8 @@ public class Controller implements Initializable {
 	private AI AI; //!resetable
 	
 	//Bool to reset AI
-	private boolean resetAI = true; //After the reset button this becomes true until all ships are placed, verified before AI.Hitfunction get's used in run!
+	//TODO WAS TRUE FOMR THE START OF THE APP!
+	private boolean resetAI = false; //After the reset button this becomes true until all ships are placed, verified before AI.Hitfunction get's used in run!
 	
 	//<---- GUI ELEMENTS BY ID ---->
 	
@@ -874,6 +875,7 @@ public class Controller implements Initializable {
 		//Initialize the AI, ALWAYS LAST FUNCTION IN THE INITIALIZAION!!!!!!!!
 		//Always last because we need all the Ships already in the ShipList!!!!
 		AI = new AI(HEIGHT, WIDTH, ShipList);
+		AI.placeRandomShips();
 		
 		//readyBtn.setOnAction(new EventHandler<ActionEvent>() {
 		AI_Grid.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -915,33 +917,59 @@ public class Controller implements Initializable {
 	        				if(resetAI == true) {
 	        					
 	        					AI = new AI(HEIGHT, WIDTH, ShipList);
+	        					AI.placeRandomShips();
 	        					resetAI = false;
 	        					
 	        				}
 	        				
 	        				//This if here is only to prevent the game form continuing if the AI or player (later implemented) wins!
 	        				if(AI.checkShipList()) {
-	        					System.out.println("Game over! Computer won!");
+	        					System.out.println("Game over! Computer has won the game! Restart to play again.");
 	        					return;
 	        				}
 	        			
 	        				//PLAYER TURN ---->
 	        				
+	        				//Current HOVERED VBox
 	    					Object hoveredObj = event.getTarget();
 	    					
-	    					if(hoveredObj instanceof VBox) {
+	    					//Coordinates of the current HOVERED VBox
+	    					int row = GridPane.getRowIndex((Node)hoveredObj);
+    						int col = GridPane.getColumnIndex((Node)hoveredObj);
+	    					
+    						Point playerHit = new Point();
+    						playerHit.setX(col);
+    						playerHit.setY(row);
+    						
+	    					//Register hit in AI Matrix if position is not already hit, else hit again elsewhere before going further!
+	    					if(!AI.playerCheckIfAlreadyHit(playerHit)) {
+	    						System.out.println("Already hit! Hit an other position!");
+	    						return;
+	    					}
+	    					
+	    					if(!AI.playerHit(playerHit)) {
+	    						//If you hit a VBox make it red
+		    					//if(hoveredObj instanceof VBox) {
+
+		    						AI_Grid.getChildren().remove(hoveredObj);
+		    						
+		    						Pane p = new Pane();
+		    						p.setStyle("-fx-background-color: #FF0000");
+		    						p.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		    						AI_Grid.add(p, col, row);
+		    					//}
+	    					}
+	    					else {
 	    						
-	    						int row = GridPane.getRowIndex((Node)hoveredObj);
-	    						int col = GridPane.getColumnIndex((Node)hoveredObj);
-	    						
+	    						//!Make child on this position in the grid a black pane!
 	    						AI_Grid.getChildren().remove(hoveredObj);
-	    						
 	    						Pane p = new Pane();
-	    						p.setStyle("-fx-background-color: #FF0000");
+	    						p.setStyle("-fx-background-color: #000000");
 	    						p.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
 	    						AI_Grid.add(p, col, row);
 	    					}
 	        				
+	    					//We will verify if the player destroyed all AI ships before the AI turn!
 	    					
 	    					//AI TURN ---->
 	    					
@@ -1244,6 +1272,20 @@ public class Controller implements Initializable {
 	}
 	
 	@FXML
+	private void DisplayAIBoard() {
+		
+		int[][] AIBoard = AI.GetAIBoard();
+		
+		for(int i = 0; i<20; i++) {
+			for(int j = 0; j<20; j++) {
+				System.out.print("[ "+AIBoard[i][j]+" ]");
+			}
+			System.out.println("");
+		}
+		
+	}
+	
+	@FXML
 	public void DisplayShips() {
 		for(Battleship i : ShipList) {
 			i.print();
@@ -1262,6 +1304,7 @@ public class Controller implements Initializable {
 		MediumShipsVertical();
 		mouseOverPosition();
 		resetGame();
+		//! Start Game always last function, see function comments!
 		StartGame();
 
 		

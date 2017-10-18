@@ -42,7 +42,7 @@ public class AI {
 	//Guessing
 	boolean isGuessing = false;
 	
-	//Destroyed Ships
+	//Player placed ships destroyed
 	int smallshipsDestroyed = 0;
 	int mediumshipsDestroyed = 0;
 	
@@ -73,9 +73,43 @@ public class AI {
 	
 	//<---- PLAYER BOARD FUNCTIONS ---->
 	
-	public void playerHit(Point Hit) {
+	//Returns true if position not already hit, false otherwise
+	public boolean playerCheckIfAlreadyHit(Point Hit) {
 		
+		//!!Player hit is registered with value 3!
 		
+		if(AIBoard[Hit.getY()][Hit.getX()] == 0 || AIBoard[Hit.getY()][Hit.getX()] == 1 || AIBoard[Hit.getY()][Hit.getX()] == 2) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	//Player hit function, returns true if ship is hit (value is 2) or false is ship is not hit(value is 0 or 1-around ship), if 2 it means there is a ship!
+	public boolean playerHit(Point Hit) {
+		
+		//!!Player hit is registered with value 3!
+		if(AIBoard[Hit.getY()][Hit.getX()] == 2) {
+			AIBoard[Hit.getY()][Hit.getX()] = 3;
+			return true;
+		}
+		else {
+			AIBoard[Hit.getY()][Hit.getX()] = 3;
+			return false;
+		}
+		
+	}
+	
+	//AI places Ships
+	public void placeRandomShips() {
+		
+		Random random = new Random();
+		int x = random.nextInt(2)+0;
+		int y = random.nextInt(2)+0;
+		
+		AIBoard[x][y] = 2;
 		
 	}
 	
@@ -766,6 +800,10 @@ public class AI {
 		
 		return gameBoard;
 		
+	}
+	
+	public int[][] GetAIBoard(){
+		return AIBoard;
 	}
 	
 }
