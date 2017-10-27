@@ -49,6 +49,10 @@ public class AI {
 	int smallshipsDestroyed = 0;
 	int mediumshipsDestroyed = 0;
 	
+	//AI placed ships destoryed;
+	int aiSmallshipsDestroyed = 0;
+	int aiMediumshipsDestroyed = 0;
+	
 	//Destroyed Ships boolean
 	boolean destroyShip = false;
 	
@@ -125,6 +129,11 @@ public class AI {
 		//!Place Small ships
 		for(int i = 0 ; i<4; i++) {		
 			placeSmallShip();			
+		}
+		
+		//!Place Medium ships
+		for (int i = 0; i<3; i++){
+			placeMediumShip();
 		}
 		
 		
@@ -321,8 +330,294 @@ public class AI {
 	}
 	
 	//TODO MediumShips random
+	private boolean placeMediumShip() {
+		
+		Random r = new Random();
+		
+		//Choose the orientation of the ship
+		int orientation = r.nextInt(2)+1;
+		
+		Point Hit = randomPlaceSpot();
+		int x = Hit.getX();//rand
+		int y = Hit.getY();//coloana
+		
+		//! x = randuri, y = coloane!!!!!!!!!!!!!
+		//!place to right or down!!!
+		
+		//If orientation 1 horizontal, else vertical
+		if(orientation == 1)
+		{
+			if(y<=14 && x<19)
+			{
+				//!Verify neighbours and future spots!
+				if(AIBoard[x][y] == 0 && AIBoard[x][y+1] == 0 && AIBoard[x][y+2] == 0
+				  && AIBoard[x][y+3] == 0 && AIBoard[x][y+4] == 0 && AIBoard[x+1][y] == 0 
+				  && AIBoard[x+1][y+1] == 0 && AIBoard[x+1][y+2] == 0 && AIBoard[x+1][y+3] == 0
+				  && AIBoard[x+1][y+4] == 0 && AIBoard[x][y+5] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x][y+1] = 2;										
+					AIBoard[x][y+2] = 2;
+					AIBoard[x][y+3] = 2;
+					AIBoard[x][y+4] = 2;
+					
+					Mediumship m = new Mediumship(5,x,y,x,y+1,x,y+2,x,y+3,x,y+4);
+					AIShipList.add(m);
+					
+					//Borders
+					AIBoard[x+1][y] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+1][y+2] = 1;
+					AIBoard[x+1][y+3] = 1;
+					AIBoard[x+1][y+4] = 1;
+					AIBoard[x][y+5] = 1;
+					
+					return true;
+				}
+				else{
+					return placeMediumShip();
+				}
+			}
+			//If margin bottom horizontal
+			else if(y<=14 && x==19)
+			{
+				//!Verify neighbours and future spots!
+				if(AIBoard[x][y] == 0 && AIBoard[x][y+1] == 0 && AIBoard[x][y+2] == 0 
+				  && AIBoard[x][y+3] == 0 && AIBoard[x][y+4] == 0 && AIBoard[x-1][y] == 0 
+				  && AIBoard[x-1][y+1] == 0 && AIBoard[x-1][y+2] == 0 && AIBoard[x-1][y+3] == 0
+				  && AIBoard[x-1][y+4] == 0 && AIBoard[x][y+5] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x][y+1] = 2;										
+					AIBoard[x][y+2] = 2;
+					AIBoard[x][y+3] = 2;
+					AIBoard[x][y+4] = 2;
+					
+					Mediumship m = new Mediumship(5,x,y,x,y+1,x,y+2,x,y+3,x,y+4);
+					AIShipList.add(m);
+					
+					//Borders
+					AIBoard[x-1][y] = 1;
+					AIBoard[x-1][y+1] = 1;
+					AIBoard[x-1][y+2] = 1;
+					AIBoard[x-1][y+3] = 1;
+					AIBoard[x-1][y+4] = 1;
+					AIBoard[x][y+5] = 1;
+					
+					return true;
+				}
+				else{
+					return placeMediumShip();
+				}
+			}
+			//If margin right out of bounds, verify 1 to left instead of right, and down
+			else if(y==15 && x<19)
+			{
+				//!Verify neighbours and future spots!
+				if(AIBoard[x][y] == 0 && AIBoard[x][y+1] == 0 && AIBoard[x][y+2] == 0 
+				  && AIBoard[x][y+3] == 0 && AIBoard[x][y+4] == 0 && AIBoard[x+1][y] == 0 
+				  && AIBoard[x+1][y+1] == 0 && AIBoard[x+1][y+2] == 0 && AIBoard[x+1][y+3] == 0
+				  && AIBoard[x+1][y+4] == 0 && AIBoard[x][y-1] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x][y+1] = 2;										
+					AIBoard[x][y+2] = 2;
+					AIBoard[x][y+3] = 2;
+					AIBoard[x][y+4] = 2;
+					
+					Mediumship m = new Mediumship(5,x,y,x,y+1,x,y+2,x,y+3,x,y+4);
+					AIShipList.add(m);
+					
+					//Borders
+					AIBoard[x+1][y] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+1][y+2] = 1;
+					AIBoard[x+1][y+3] = 1;
+					AIBoard[x+1][y+4] = 1;
+					AIBoard[x][y-1] = 1;
+					
+					return true;
+				}
+				else{
+					return placeMediumShip();
+				}
+			}
+			else {
+				return placeMediumShip();
+			}
+		}
+		//Orientation is 2 => vertical
+		else {
+			if(x<=14 && y<19) {
+				if(AIBoard[x][y] == 0 && AIBoard[x+1][y] == 0 && AIBoard[x+2][y] == 0 
+				  && AIBoard[x+3][y] == 0 && AIBoard[x+4][y] == 0 && AIBoard[x][y+1] == 0 
+				  && AIBoard[x+1][y+1] == 0 && AIBoard[x+2][y+1] == 0 && AIBoard[x+3][y+1] == 0
+				  && AIBoard[x+4][y+1] == 0 && AIBoard[x+5][y] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x+1][y] = 2;
+					AIBoard[x+2][y] = 2;
+					AIBoard[x+3][y] = 2;
+					AIBoard[x+4][y] = 2;
+					
+					Mediumship m = new Mediumship(5,x,y,x+1,y,x+2,y,x+3,y,x+4,y);
+					AIShipList.add(m);
+					
+					//Borders
+					AIBoard[x][y+1] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+2][y+1] = 1;
+					AIBoard[x+3][y+1] = 1;
+					AIBoard[x+4][y+1] = 1;
+					AIBoard[x+5][y] = 1;
+					
+					return true;
+				}
+				else {
+					return placeMediumShip();
+				}
+			}
+			//If ship is on margin right
+			else if(x<=14 && y==19) {
+				if(AIBoard[x][y] == 0 && AIBoard[x+1][y] == 0 && AIBoard[x+2][y] == 0 
+				  && AIBoard[x+3][y] == 0 && AIBoard[x+4][y] == 0 && AIBoard[x][y-1] == 0 
+				  && AIBoard[x+1][y-1] == 0 && AIBoard[x+2][y-1] == 0 && AIBoard[x+3][y-1] == 0
+				  && AIBoard[x+4][y-1] == 0 && AIBoard[x+5][y] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x+1][y] = 2;
+					AIBoard[x+2][y] = 2;
+					AIBoard[x+3][y] = 2;
+					AIBoard[x+4][y] = 2;
+					
+					Mediumship m = new Mediumship(5,x,y,x+1,y,x+2,y,x+3,y,x+4,y);
+					AIShipList.add(m);
+					
+					//Borders
+					AIBoard[x][y-1] = 1;
+					AIBoard[x+1][y-1] = 1;
+					AIBoard[x+2][y-1] = 1;
+					AIBoard[x+3][y-1] = 1;
+					AIBoard[x+4][y-1] = 1;
+					AIBoard[x+5][y] = 1;
+					
+					return true;
+				}
+				else {
+					return placeMediumShip();
+				}
+			}
+			//If bottom out of bounds, verifiy 1 up instead of 1 down
+			else if(x==15 && y<19) {
+				if(AIBoard[x][y] == 0 && AIBoard[x+1][y] == 0 && AIBoard[x+2][y] == 0 
+				  && AIBoard[x+3][y] == 0 && AIBoard[x+4][y] == 0 && AIBoard[x][y+1] == 0 
+				  && AIBoard[x+1][y+1] == 0 && AIBoard[x+2][y+1] == 0 && AIBoard[x+3][y+1] == 0
+				  && AIBoard[x+4][y+1] == 0 && AIBoard[x-1][y] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x+1][y] = 2;
+					AIBoard[x+2][y] = 2;
+					AIBoard[x+3][y] = 2;
+					AIBoard[x+4][y] = 2;
+					
+					Mediumship m = new Mediumship(5,x,y,x+1,y,x+2,y,x+3,y,x+4,y);
+					AIShipList.add(m);
+					
+					//Borders
+					AIBoard[x][y+1] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+2][y+1] = 1;
+					AIBoard[x+3][y+1] = 1;
+					AIBoard[x+4][y+1] = 1;
+					AIBoard[x-1][y] = 1;
+					
+					return true;
+				}
+				else {
+					return placeMediumShip();
+				}
+			}
+			else {
+				return placeMediumShip();
+			}
+		}
+				
+	}
+	
+	
 	
 	//TODO countByPlayerDestroyedShips AND checkAIShipList!
+	//<---- COUNT BY PLAYER DESTROYED SHIPS ---->
+	
+	public void countByPlayerDestroyedShips() {
+		
+		//Check all positions of all ships if hit!
+		for(int i = 0; i<AIShipList.size();i++) {
+			
+			Battleship b = AIShipList.get(i);
+			
+			//Verify each small ship
+			if(b instanceof Smallship) {
+				
+				//Get Ship Positions
+				Point p1 = b.getCoordinates(0);
+				Point p2 = b.getCoordinates(1);
+				Point p3 = b.getCoordinates(2);
+				
+				//If all positions Hit remove ship
+				if(getAIPosition(p1.getX(), p1.getY()) == 3 && getAIPosition(p2.getX(), p2.getY()) == 3 && getAIPosition(p3.getX(), p3.getY()) == 3) {
+					
+					System.out.println("Small ship Destroyed!");
+					aiSmallshipsDestroyed += 1;
+					AIShipList.remove(b);
+					
+				}
+				
+			}
+			
+			//Verify each medium ship
+			if(b instanceof Mediumship) {
+				
+				//Get Ship Positions
+				Point p1 = b.getCoordinates(0);
+				Point p2 = b.getCoordinates(1);
+				Point p3 = b.getCoordinates(2);
+				Point p4 = b.getCoordinates(3);
+				Point p5 = b.getCoordinates(4);
+				
+				//If all positions Hit remove ship
+				if(getAIPosition(p1.getX(), p1.getY()) == 3 && getAIPosition(p2.getX(), p2.getY()) == 3 && getAIPosition(p3.getX(), p3.getY()) == 3 && getAIPosition(p4.getX(),p4.getY()) == 3 &&
+						getAIPosition(p5.getX(),p5.getY()) == 3) {
+					
+					System.out.println("Medium ship Destroyed");
+					aiMediumshipsDestroyed += 1;
+					AIShipList.remove(b);
+					
+				}
+				
+			}
+		}
+		
+	}
+	
+	//<---- CHECK IF ALL AI SHIPS ARE DESTROYED ---->
+	
+		public boolean checkAIShipList() {
+			
+			if(AIShipList.isEmpty()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
 	
 	//<---- COUNT BY AI DESTROYED SHIPS ---->
 	public void countByAIDestroyedShips() {
@@ -376,7 +671,7 @@ public class AI {
 		
 	}
 	
-	//<---- CHECK IF ALL SHEAPS ARE DESTROYED ---->
+	//<---- CHECK IF ALL PLAYER SHIPS ARE DESTROYED ---->
 	
 	public boolean checkShipList() {
 		
@@ -980,9 +1275,17 @@ public class AI {
 		return r;
 	}
 	
+	// Get position for Player Board (Grid)
 	public int getPosition(int col, int row) {
 		
 		return gameBoard[col][row];
+		
+	}
+	
+	//Get position for AI Board (Grid)
+	public int getAIPosition(int col, int row) {
+		
+		return AIBoard[col][row];
 		
 	}
 	

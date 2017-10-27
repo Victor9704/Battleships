@@ -927,6 +927,10 @@ public class Controller implements Initializable {
 	        					System.out.println("Game over! Computer has won the game! Restart to play again.");
 	        					return;
 	        				}
+	        				else if(AI.checkAIShipList()) {
+	        					System.out.println("Game over! Player has won the game! Restart to play again.");
+	        					return;
+	        				}
 	        			
 	        				//PLAYER TURN ---->
 	        				
@@ -970,6 +974,12 @@ public class Controller implements Initializable {
 	    					}
 	        				
 	    					//We will verify if the player destroyed all AI ships before the AI turn!
+	    					AI.countByPlayerDestroyedShips();
+	    					
+	    					if(AI.checkAIShipList()) {
+	        					System.out.println("Player won!");
+	        					return;
+	        				}
 	    					
 	    					//AI TURN ---->
 	    					
