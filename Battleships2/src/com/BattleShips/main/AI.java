@@ -6,8 +6,11 @@ import java.util.Stack;
 
 public class AI {
 	
-	//Ship List
+	//Player ship List
 	ArrayList<Battleship> ShipList;
+	
+	//AI ship list
+	ArrayList<Battleship> AIShipList = new ArrayList<Battleship>();
 	
 	//Last Hit Position Stack
 	private Stack<Point> HitStack;
@@ -102,18 +105,226 @@ public class AI {
 		
 	}
 	
+	//!Choose a random spot to try and place the ship
+	private Point randomPlaceSpot() {
+		
+		Random random = new Random();
+		int x = random.nextInt(20)+0;
+		int y = random.nextInt(20)+0;
+		
+		Point Hit = new Point();
+		Hit.setX(x);
+		Hit.setY(y);
+		
+		return Hit;
+	}
+	
 	//AI places Ships
 	public void placeRandomShips() {
 		
-		Random random = new Random();
-		int x = random.nextInt(2)+0;
-		int y = random.nextInt(2)+0;
+		//!Place Small ships
+		for(int i = 0 ; i<4; i++) {		
+			placeSmallShip();			
+		}
 		
-		AIBoard[x][y] = 2;
 		
 	}
 	
-	//<---- COUNT DESTROYED SHIPS ---->
+	public boolean placeSmallShip() {
+			
+		Random r = new Random();
+		
+		//Choose the orientation of the ship
+		int orientation = r.nextInt(2)+1;
+		
+		Point Hit = randomPlaceSpot();
+		int x = Hit.getX();//rand
+		int y = Hit.getY();//coloana
+		
+		//! x = randuri, y = coloane!!!!!!!!!!!!!
+		//!place to right or down!!!
+		
+		//If orientation 1 horizontal, else vertical
+		if(orientation == 1)
+		{
+			if(y<=16 && x<19)
+			{
+				//!Verify neighbours and future spots!
+				if(AIBoard[x][y] == 0 && AIBoard[x][y+1] == 0 && AIBoard[x][y+2] == 0
+				  && AIBoard[x+1][y] == 0 && AIBoard[x+1][y+1] == 0 && AIBoard[x+1][y+2] == 0
+				  && AIBoard[x][y+3] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x][y+1] = 2;										
+					AIBoard[x][y+2] = 2;
+					
+					Smallship s = new Smallship(3,x,y,x,y+1,x,y+2);
+					AIShipList.add(s);
+					
+					//Borders
+					AIBoard[x+1][y] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+1][y+2] = 1;
+					AIBoard[x][y+3] = 1;
+					
+					return true;
+				}
+				else{
+					return placeSmallShip();
+				}
+			}
+			//If margin bottom horizontal
+			else if(y<=16 && x==19)
+			{
+				//!Verify neighbours and future spots!
+				if(AIBoard[x][y] == 0 && AIBoard[x][y+1] == 0 && AIBoard[x][y+2] == 0
+				  && AIBoard[x-1][y] == 0 && AIBoard[x-1][y+1] == 0 && AIBoard[x-1][y+2] == 0
+				  && AIBoard[x][y+3] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x][y+1] = 2;										
+					AIBoard[x][y+2] = 2;
+					
+					Smallship s = new Smallship(3,x,y,x,y+1,x,y+2);
+					AIShipList.add(s);
+					
+					//Borders
+					AIBoard[x-1][y] = 1;
+					AIBoard[x-1][y+1] = 1;
+					AIBoard[x-1][y+2] = 1;
+					AIBoard[x][y+3] = 1;
+					
+					return true;
+				}
+				else{
+					return placeSmallShip();
+				}
+			}
+			//If margin right out of bounds, verify 1 to left instead of right, and down
+			else if(y==17 && x<19)
+			{
+				//!Verify neighbours and future spots!
+				if(AIBoard[x][y] == 0 && AIBoard[x][y+1] == 0 && AIBoard[x][y+2] == 0
+				  && AIBoard[x+1][y] == 0 && AIBoard[x+1][y+1] == 0 && AIBoard[x+1][y+2] == 0
+				  && AIBoard[x][y-1] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x][y+1] = 2;										
+					AIBoard[x][y+2] = 2;
+					
+					Smallship s = new Smallship(3,x,y,x,y+1,x,y+2);
+					AIShipList.add(s);
+					
+					//Borders
+					AIBoard[x+1][y] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+1][y+2] = 1;
+					AIBoard[x][y-1] = 1;
+					
+					return true;
+				}
+				else{
+					return placeSmallShip();
+				}
+			}
+			else {
+				return placeSmallShip();
+			}
+		}
+		//Orientation is 2 => vertical
+		else {
+			if(x<=16 && y<19) {
+				if(AIBoard[x][y] == 0 && AIBoard[x+1][y] == 0 && AIBoard[x+2][y] == 0
+				  && AIBoard[x][y+1] == 0 && AIBoard[x+1][y+1] == 0 && AIBoard[x+2][y+1] == 0
+				  && AIBoard[x+3][y] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x+1][y] = 2;
+					AIBoard[x+2][y] = 2;
+					
+					Smallship s = new Smallship(3,x,y,x+1,y,x+2,y);
+					AIShipList.add(s);
+					
+					//Borders
+					AIBoard[x][y+1] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+2][y+1] = 1;
+					AIBoard[x+3][y] = 1;
+					
+					return true;
+				}
+				else {
+					return placeSmallShip();
+				}
+			}
+			//If ship is on margin right
+			else if(x<=16 && y==19) {
+				if(AIBoard[x][y] == 0 && AIBoard[x+1][y] == 0 && AIBoard[x+2][y] == 0
+				  && AIBoard[x][y-1] == 0 && AIBoard[x+1][y-1] == 0 && AIBoard[x+2][y-1] == 0
+				  && AIBoard[x+3][y] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x+1][y] = 2;
+					AIBoard[x+2][y] = 2;
+					
+					Smallship s = new Smallship(3,x,y,x+1,y,x+2,y);
+					AIShipList.add(s);
+					
+					//Borders
+					AIBoard[x][y-1] = 1;
+					AIBoard[x+1][y-1] = 1;
+					AIBoard[x+2][y-1] = 1;
+					AIBoard[x+3][y] = 1;
+					
+					return true;
+				}
+				else {
+					return placeSmallShip();
+				}
+			}
+			//If bottom out of bounds, verifiy 1 up instead of 1 down
+			else if(x==17 && y<19) {
+				if(AIBoard[x][y] == 0 && AIBoard[x+1][y] == 0 && AIBoard[x+2][y] == 0
+				  && AIBoard[x][y+1] == 0 && AIBoard[x+1][y+1] == 0 && AIBoard[x+2][y+1] == 0
+				  && AIBoard[x-1][y] == 0) {
+					
+					//Ship
+					AIBoard[x][y] = 2;
+					AIBoard[x+1][y] = 2;
+					AIBoard[x+2][y] = 2;
+					
+					Smallship s = new Smallship(3,x,y,x+1,y,x+2,y);
+					AIShipList.add(s);
+					
+					//Borders
+					AIBoard[x][y+1] = 1;
+					AIBoard[x+1][y+1] = 1;
+					AIBoard[x+2][y+1] = 1;
+					AIBoard[x-1][y] = 1;
+					
+					return true;
+				}
+				else {
+					return placeSmallShip();
+				}
+			}
+			else {
+				return placeSmallShip();
+			}
+		}
+		
+	}
+	
+	//TODO MediumShips random
+	
+	//TODO countByPlayerDestroyedShips AND checkAIShipList!
+	
+	//<---- COUNT BY AI DESTROYED SHIPS ---->
 	public void countByAIDestroyedShips() {
 		
 		//Check all positions of all ships if hit!

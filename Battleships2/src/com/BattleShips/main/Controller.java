@@ -1287,7 +1287,7 @@ public class Controller implements Initializable {
 	
 	@FXML
 	public void DisplayShips() {
-		for(Battleship i : ShipList) {
+		for(Battleship i : AI.AIShipList) {
 			i.print();
 		}
 	}
