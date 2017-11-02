@@ -883,12 +883,12 @@ public class Controller implements Initializable {
             @Override
             public void handle(/*ActionEvent*/MouseEvent event) {
             	
-            	
             	/*Runnable task*/ Platform.runLater( new Runnable() {
             		
         			public void run() {
         				
-        				
+        				//!Only left click
+        				if(!event.isSecondaryButtonDown()) {
         				//First verify if Player placed all ships
         				
         				if(Smallships < 4 || Mediumships < 3) {
@@ -1011,6 +1011,8 @@ public class Controller implements Initializable {
         				//}
         				
         				System.out.println(timesHit);
+        			}
+        				
         			}
         			
         		});
@@ -1270,6 +1272,13 @@ public class Controller implements Initializable {
 	@FXML
 	private void DisplayBoard() {
 		
+		try {
+			AI.GetBoard();
+		} catch (Exception e) {
+			Notifications.create().darkStyle().title("Board is empty!").text("Place your ships first.").position(Pos.CENTER).showWarning();
+			return;
+		}
+		
 		int[][] Board = AI.GetBoard();
 		
 		for(int i = 0; i<20; i++) {
@@ -1284,6 +1293,13 @@ public class Controller implements Initializable {
 	@FXML
 	private void DisplayAIBoard() {
 		
+		try {
+			AI.GetAIBoard();
+		} catch (Exception e) {
+			Notifications.create().darkStyle().title("Board is empty!").text("Place your ships first.").position(Pos.CENTER).showWarning();
+			return;
+		}
+		
 		int[][] AIBoard = AI.GetAIBoard();
 		
 		for(int i = 0; i<20; i++) {
@@ -1297,8 +1313,17 @@ public class Controller implements Initializable {
 	
 	@FXML
 	public void DisplayShips() {
-		for(Battleship i : AI.AIShipList) {
-			i.print();
+		
+		try {
+			ArrayList<Battleship> i = AI.AIShipList;
+			
+			for(Battleship j : AI.AIShipList) {
+				j.print();
+			}			
+		}catch(Exception e) {
+			Notifications.create().darkStyle().title("Board is empty!").text("Place your ships first.").position(Pos.CENTER).showWarning();
+			return;
+		
 		}
 	}
 	
